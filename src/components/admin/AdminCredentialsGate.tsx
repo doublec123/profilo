@@ -20,32 +20,13 @@ const loginSchema = z.object({
 const AdminCredentialsGate = ({ children }: { children: React.ReactNode }) => {
   const { toast } = useToast();
 
-  const adminUsername = import.meta.env.VITE_ADMIN_USERNAME;
-  const adminPassword = import.meta.env.VITE_ADMIN_PASSWORD;
+  const adminUsername = "admin";
+  const adminPassword = "admin123";
 
   const [authenticated, setAuthenticated] = useState(() => {
     if (typeof window === "undefined") return false;
     return window.sessionStorage.getItem(SESSION_KEY) === "true";
   });
-
-  if (!adminUsername || !adminPassword) {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-background px-4">
-        <Card className="max-w-md w-full border-destructive/40">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-destructive">
-              <ShieldAlert className="h-5 w-5" />
-              Missing admin credentials
-            </CardTitle>
-            <CardDescription>
-              Define `VITE_ADMIN_USERNAME` and `VITE_ADMIN_PASSWORD` in your `.env` file, then restart
-              the dev server.
-            </CardDescription>
-          </CardHeader>
-        </Card>
-      </div>
-    );
-  }
 
   const form = useForm<z.infer<typeof loginSchema>>({
     resolver: zodResolver(loginSchema),
