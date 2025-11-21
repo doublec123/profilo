@@ -18,12 +18,13 @@ const Contact = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
-    const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
-    const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+    // Replace these with your actual EmailJS credentials
+    const serviceId = "your-emailjs-service-id";
+    const templateId = "your-emailjs-template-id";
+    const publicKey = "your-emailjs-public-key";
 
-    if (!serviceId || !templateId || !publicKey) {
-      toast.error("Email service is not configured. Please try again later.");
+    if (!serviceId || !templateId || !publicKey || serviceId === "your-emailjs-service-id") {
+      toast.error("Email service is not configured. Please configure EmailJS credentials in Contact.tsx");
       return;
     }
 
