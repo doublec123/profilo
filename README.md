@@ -162,14 +162,62 @@ create policy "dev-mode anon access" on public.certificates
 2. Set it to **public** (or add a policy that allows `anon` `read` access if you prefer locking it down later).
 3. The admin panel uploads images to this bucket and stores the resulting public URL in the `certificates.image_url` column.
 
-## How can I deploy this project?
+## How to Deploy to GitHub Pages
 
-Simply open [Lovable](https://lovable.dev/projects/b9bc1f30-28c9-43b7-a40c-31e1dd7ce7eb) and click on Share -> Publish.
+### Automatic Deployment (Recommended)
 
-## Can I connect a custom domain to my Lovable project?
+1. **Push your code to GitHub:**
+   ```bash
+   git add .
+   git commit -m "Initial commit"
+   git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git
+   git branch -M main
+   git push -u origin main
+   ```
 
-Yes, you can!
+2. **Enable GitHub Pages:**
+   - Go to your repository on GitHub
+   - Click **Settings** → **Pages**
+   - Under **Source**, select **GitHub Actions**
+   - The workflow will automatically deploy on every push to `main`
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+3. **Update the repository name in `vite.config.ts`:**
+   - If your repository name is different from `neon-core-portfolio-main`, update line 8 in `vite.config.ts`:
+   ```typescript
+   const repoName = 'your-actual-repo-name';
+   ```
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+4. **Set up environment variables (for production):**
+   - Go to **Settings** → **Secrets and variables** → **Actions**
+   - Add these secrets:
+     - `VITE_SUPABASE_URL` - Your Supabase project URL
+     - `VITE_SUPABASE_ANON_KEY` - Your Supabase anon key
+     - `VITE_ADMIN_USERNAME` - Your admin username
+     - `VITE_ADMIN_PASSWORD` - Your admin password
+     - `VITE_EMAILJS_SERVICE_ID` - Your EmailJS service ID
+     - `VITE_EMAILJS_TEMPLATE_ID` - Your EmailJS template ID
+     - `VITE_EMAILJS_PUBLIC_KEY` - Your EmailJS public key
+
+5. **Update the workflow to use secrets:**
+   The build will automatically use these secrets during deployment.
+
+### Manual Deployment
+
+If you prefer to deploy manually:
+
+```bash
+npm run build
+# Then upload the 'dist' folder to your hosting service
+```
+
+### Important Notes
+
+- **Environment Variables:** For GitHub Pages, you'll need to set environment variables as GitHub Secrets since `.env` files aren't included in the build.
+- **Base Path:** Make sure the `base` path in `vite.config.ts` matches your repository name.
+- **Routing:** The `404.html` file handles client-side routing for GitHub Pages.
+
+## Alternative Hosting Options
+
+- **Vercel:** Connect your GitHub repo and deploy automatically
+- **Netlify:** Drag and drop the `dist` folder or connect via Git
+- **Cloudflare Pages:** Connect your GitHub repo for automatic deployments
