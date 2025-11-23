@@ -5,10 +5,12 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
-  // For GitHub Pages, use the repository name as base path
-  // Change 'neon-core-portfolio-main' to your actual repository name
+  // For Vercel: use '/' (default)
+  // For GitHub Pages: use repository name as base path
+  // Only set subdirectory base if explicitly building for GitHub Pages
+  const isGitHubPages = process.env.GITHUB_PAGES === 'true';
   const repoName = process.env.GITHUB_REPOSITORY?.split('/')[1] || 'neon-core-portfolio-main';
-  const base = process.env.GITHUB_PAGES ? `/${repoName}/` : '/';
+  const base = isGitHubPages ? `/${repoName}/` : '/';
 
   return {
     base,
