@@ -43,7 +43,7 @@ const AppRoutes = () => {
 };
 
 const App = () => {
-  // Get base path from Vite's base config (for GitHub Pages)
+  // Use base path from Vite config (defaults to '/' for Vercel)
   const base = import.meta.env.BASE_URL || '/';
   
   return (
